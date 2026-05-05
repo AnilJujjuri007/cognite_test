@@ -1,0 +1,30 @@
+name: Run Cognite Demo
+ 
+on:
+  push:
+    branches: [ main ]
+ 
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+ 
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+ 
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+ 
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+ 
+      - name: Run script
+        env:
+          COGNITE_PROJECT: ${{ secrets.COGNITE_PROJECT }}
+          COGNITE_CLIENT_ID: ${{ secrets.COGNITE_CLIENT_ID }}
+          COGNITE_CLIENT_SECRET: ${{ secrets.COGNITE_CLIENT_SECRET }}
+          COGNITE_TENANT_ID: ${{ secrets.COGNITE_TENANT_ID }}
+        run: python main.py
+ 
